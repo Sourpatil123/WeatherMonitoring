@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Weather Monitoring</title>
+    
+    <style>
+        /* Body styling with a gradient background */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            flex-direction: column; /* Makes elements stack vertically */
+        }
+
+        /* Center everything on the page */
+        h1, form, .weather-card {
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            color: #ffffff;
+            text-align: center;
+            font-size: 42px;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Form styling with rounded corners and shadow */
+        form {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column; /* Elements inside form stack vertically */
+            width: 350px;
+            text-align: center;
+            margin-bottom: 20px; /* Add gap below form */
+        }
+
+        label {
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 18px;
+            text-align: left; /* Align label to the left */
+        }
+
+        /* Input styling with focus effect */
+        input[type="text"] {
+            padding: 12px;
+            border: 2px solid #74ebd5;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            transition: border-color 0.3s ease;
+            outline: none;
+        }
+
+        input[type="text"]:focus {
+            border-color: #ACB6E5;
+        }
+
+        /* Button styling with animation */
+        button {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s, transform 0.3s;
+            margin-top: 10px; /* Add gap between input and button */
+        }
+
+        button:hover {
+            background-color: #1abc9c;
+            transform: translateY(-3px);
+        }
+
+        /* Weather card with elegant shadow and animation */
+        .weather-card {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            width: 350px;
+            text-align: center;
+            animation: slideIn 0.5s ease-out forwards;
+            transform: translateY(30px);
+            opacity: 0;
+            margin-top: 20px; /* Add gap between form and weather card */
+        }
+
+        /* Slide-in animation */
+        @keyframes slideIn {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        h2 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 18px;
+            color: #666;
+            margin: 5px 0;
+        }
+
+        .error {
+            color: red;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        
+    </style>
+</head>
+<body>
+    <h1>Weather Monitoring System</h1>
+    <form action="/weather" method="post">
+        <label for="city">City Name:</label>
+        <input type="text" id="city" name="city" placeholder="Enter city name...">
+        <button type="submit">Check Weather</button>
+    </form>
+
+    <div class="error" th:if="${error}">
+        <p th:text="${error}"></p>
+    </div>
+
+    <div class="weather-card" th:if="${weather}">
+        <h2>Weather in <span th:text="${weather.cityName}"></span></h2>
+        <p>Description: <span th:text="${weather.description}"></span></p>
+        <p>Temperature: <span th:text="${weather.temperature}"></span> °C</p>
+        <p>Feels Like: <span th:text="${weather.feelsLike}"></span> °C</p>
+        <p>Time: <span th:text="${weather.timestamp}"></span></p>
+    </div>
+</body>
+</html>

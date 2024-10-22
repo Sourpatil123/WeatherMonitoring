@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to Weather Monitoring</title>
+    
+    <style>
+        /* Body styling with a gradient background */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            flex-direction: column; /* Makes elements stack vertically */
+        }
+
+        /* Center everything on the page */
+        h1, .welcome-box {
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            color: #ffffff;
+            text-align: center;
+            font-size: 42px;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Welcome box styling with flex and gap */
+        .welcome-box {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            width: 350px;
+            text-align: center;
+            display: flex;
+            flex-direction: column; /* Ensures all elements are one below the other */
+            gap: 20px; /* Adds gap between elements */
+            margin-bottom: 20px; /* Gap below box */
+        }
+
+        /* Button to proceed to weather page */
+        .welcome-box a {
+            text-decoration: none;
+            background-color: #333;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .welcome-box a:hover {
+            background-color: #1abc9c;
+            transform: translateY(-3px);
+        }
+
+        /* Paragraph text inside the welcome box */
+        p {
+            font-size: 18px;
+            color: #666;
+            margin: 0; /* Ensure no extra margins between text */
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Welcome to Weather Monitoring</h1>
+    <div class="welcome-box">
+        <p>Navigate Your Day with Confidence! </p>
+        <br> 
+        <a href="/weather">Go to Weather Monitoring</a>
+    </div>
+</body>
+</html>
