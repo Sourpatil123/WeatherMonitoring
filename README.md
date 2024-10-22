@@ -41,7 +41,7 @@ API Key: Update the OpenWeatherMap API key in the application.properties.
 Base URL: The base URL for fetching weather data is configured within the service layer of the app.
 
 Usage
-Open the application in your browser:
+Open the application in your browser: https://github.com/Sourpatil123/WeatherMonitoring
 Enter the name of the city for which you want to view the weather.
 The weather data for the entered city will be displayed with current temperature, conditions, and other relevant information.
 
