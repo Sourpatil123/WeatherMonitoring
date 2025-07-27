@@ -1,84 +1,221 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to Weather Monitoring</title>
-    
     <style>
-        /* Body styling with a gradient background */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
         body {
+            margin: 0;
+            padding: 0;
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);
-            color: #333;
+            background: radial-gradient(circle at 20% 20%, #0d1b2a, #1b263b 70%, #000);
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
-            padding: 0;
-            flex-direction: column; /* Makes elements stack vertically */
-        }
-
-        /* Center everything on the page */
-        h1, .welcome-box {
+            overflow: hidden;
+            color: #fff;
             position: relative;
-            z-index: 1;
         }
 
         h1 {
-            color: #ffffff;
-            text-align: center;
             font-size: 42px;
-            letter-spacing: 2px;
-            margin-bottom: 20px;
-            text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2);
+            margin-bottom: 10px;
+            text-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
         }
 
-        /* Welcome box styling with flex and gap */
-        .welcome-box {
-            background-color: #ffffff;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            width: 350px;
+        p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            color: #ddd;
             text-align: center;
-            display: flex;
-            flex-direction: column; /* Ensures all elements are one below the other */
-            gap: 20px; /* Adds gap between elements */
-            margin-bottom: 20px; /* Gap below box */
         }
 
-        /* Button to proceed to weather page */
+        /* Star field */
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .stars span {
+            position: absolute;
+            display: block;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: twinkle 4s infinite;
+        }
+
+        /* Small random stars */
+        .stars span.small {
+            width: 2px;
+            height: 2px;
+        }
+        /* Larger glowing stars */
+        .stars span.big {
+            width: 4px;
+            height: 4px;
+            box-shadow: 0 0 8px white;
+        }
+
+        /* Random star positions */
+        .stars span:nth-child(1) { top: 10%; left: 20%; animation-delay: 0s; }
+        .stars span:nth-child(2) { top: 25%; left: 80%; animation-delay: 1s; }
+        .stars span:nth-child(3) { top: 40%; left: 60%; animation-delay: 2s; }
+        .stars span:nth-child(4) { top: 70%; left: 30%; animation-delay: 3s; }
+        .stars span:nth-child(5) { top: 80%; left: 75%; animation-delay: 1.5s; }
+        .stars span:nth-child(6) { top: 55%; left: 15%; animation-delay: 2.5s; }
+        .stars span:nth-child(7) { top: 15%; left: 50%; animation-delay: 3.5s; }
+        .stars span:nth-child(8) { top: 85%; left: 40%; animation-delay: 2s; }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* Clouds */
+        .cloud {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            width: 120px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            box-shadow: -30px 0px 0px #fff, 30px 0px 0px #fff, -15px -20px 0px #fff, 15px -20px 0px #fff;
+            opacity: 0.9;
+        }
+        .cloud-face {
+            position: absolute;
+            top: 10px;
+        }
+
+        /* Random movement */
+        @keyframes floatRight {
+            0% { transform: translateX(-200px); opacity: 0; }
+            10% { opacity: 1; }
+            100% { transform: translateX(120vw); opacity: 0; }
+        }
+
+        @keyframes floatLeft {
+            0% { transform: translateX(120vw); opacity: 0; }
+            10% { opacity: 1; }
+            100% { transform: translateX(-200px); opacity: 0; }
+        }
+
+        .cloud1 { top: 5%; left: -100px; animation: floatRight 50s linear infinite; }
+        .cloud2 { top: 20%; right: -150px; animation: floatLeft 60s linear infinite; }
+        .cloud3 { top: 35%; left: -100px; animation: floatRight 55s linear infinite; }
+        .cloud4 { top: 50%; right: -200px; animation: floatLeft 65s linear infinite; }
+        .cloud5 { top: 65%; left: -150px; animation: floatRight 70s linear infinite; }
+        .cloud6 { top: 80%; right: -120px; animation: floatLeft 50s linear infinite; }
+
+        /* Rain */
+        .raindrop {
+            position: absolute;
+            width: 4px;
+            height: 12px;
+            background: #00aaff;
+            border-radius: 50%;
+            top: 60px;
+            left: 50%;
+            animation: rain 1s infinite;
+        }
+        .raindrop:nth-child(2) { left: 60%; animation-delay: 0.2s; }
+        .raindrop:nth-child(3) { left: 40%; animation-delay: 0.4s; }
+
+        @keyframes rain {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(30px); opacity: 0; }
+        }
+
+        /* Lightning */
+        .lightning-bolt {
+            position: absolute;
+            top: 60px;
+            left: 50%;
+            width: 3px;
+            height: 35px;
+            background: yellow;
+            transform: rotate(20deg);
+            box-shadow: 2px 2px 5px rgba(255, 255, 0, 0.8);
+            animation: flash 1.5s infinite;
+        }
+        .lightning-bolt::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: -6px;
+            width: 3px;
+            height: 25px;
+            background: yellow;
+            transform: rotate(-40deg);
+        }
+
+        @keyframes flash {
+            0%, 80%, 100% { opacity: 0; }
+            40% { opacity: 1; }
+        }
+
+        /* Welcome Box */
+        .welcome-box {
+            z-index: 10;
+            padding: 30px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(15px);
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
         .welcome-box a {
             text-decoration: none;
-            background-color: #333;
-            color: white;
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 16px;
+            background-color: #ffb703;
+            color: #000;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 18px;
             font-weight: 600;
-            transition: background-color 0.3s, transform 0.3s;
+            transition: all 0.3s ease;
+            display: inline-block;
         }
 
         .welcome-box a:hover {
-            background-color: #1abc9c;
-            transform: translateY(-3px);
+            background-color: #fb8500;
+            transform: scale(1.05);
         }
-
-        /* Paragraph text inside the welcome box */
-        p {
-            font-size: 18px;
-            color: #666;
-            margin: 0; /* Ensure no extra margins between text */
-        }
-
     </style>
 </head>
 <body>
-    <h1>Welcome to Weather Monitoring</h1>
+    <!-- Stars -->
+    <div class="stars">
+        <span class="small"></span><span class="big"></span><span class="small"></span><span class="big"></span>
+        <span class="small"></span><span class="big"></span><span class="small"></span><span class="big"></span>
+    </div>
+
+    <!-- Clouds -->
+    <div class="cloud cloud1"><div class="cloud-face">😊</div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div></div>
+    <div class="cloud cloud2"><div class="cloud-face">⚡</div><div class="lightning-bolt"></div></div>
+    <div class="cloud cloud3"><div class="cloud-face">🌤️</div></div>
+    <div class="cloud cloud4"><div class="cloud-face">😎</div></div>
+    <div class="cloud cloud5"><div class="cloud-face">☁️</div></div>
+    <div class="cloud cloud6"><div class="cloud-face">🙂</div></div>
+
+    <!-- Welcome Box -->
     <div class="welcome-box">
-        <p>Navigate Your Day with Confidence! </p>
-        <br> 
+        <h1>Welcome to Weather Monitoring</h1>
+        <p>Get real-time weather updates with a click!</p>
         <a href="/weather">Go to Weather Monitoring</a>
     </div>
 </body>

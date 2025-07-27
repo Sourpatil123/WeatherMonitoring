@@ -3,140 +3,237 @@
 <head>
     <meta charset="UTF-8">
     <title>Weather Monitoring</title>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        /* Body styling with a gradient background */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);
-            color: #333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             margin: 0;
             padding: 0;
-            flex-direction: column; /* Makes elements stack vertically */
-        }
-
-        /* Center everything on the page */
-        h1, form, .weather-card {
+            font-family: 'Poppins', sans-serif;
+            background: radial-gradient(circle at 20% 20%, #0d1b2a, #1b263b 70%, #000);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            color: #fff;
+            overflow: hidden;
             position: relative;
-            z-index: 1;
         }
 
         h1 {
-            color: #ffffff;
-            text-align: center;
-            font-size: 42px;
-            letter-spacing: 2px;
+            z-index: 2;
+            font-size: 38px;
             margin-bottom: 20px;
-            text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2);
+            text-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
         }
 
-        /* Form styling with rounded corners and shadow */
-        form {
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        /* Star field */
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .stars span {
+            position: absolute;
+            display: block;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: twinkle 4s infinite;
+        }
+        .stars span.small {
+            width: 2px;
+            height: 2px;
+        }
+        .stars span.big {
+            width: 4px;
+            height: 4px;
+            box-shadow: 0 0 8px white;
+        }
+        .stars span:nth-child(1) { top: 10%; left: 20%; animation-delay: 0s; }
+        .stars span:nth-child(2) { top: 25%; left: 80%; animation-delay: 1s; }
+        .stars span:nth-child(3) { top: 40%; left: 60%; animation-delay: 2s; }
+        .stars span:nth-child(4) { top: 70%; left: 30%; animation-delay: 3s; }
+        .stars span:nth-child(5) { top: 80%; left: 75%; animation-delay: 1.5s; }
+        .stars span:nth-child(6) { top: 55%; left: 15%; animation-delay: 2.5s; }
+        .stars span:nth-child(7) { top: 15%; left: 50%; animation-delay: 3.5s; }
+        .stars span:nth-child(8) { top: 85%; left: 40%; animation-delay: 2s; }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* Clouds */
+        .cloud {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            width: 120px;
+            height: 60px;
             display: flex;
-            flex-direction: column; /* Elements inside form stack vertically */
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            box-shadow: -30px 0px 0px #fff, 30px 0px 0px #fff, -15px -20px 0px #fff, 15px -20px 0px #fff;
+            opacity: 0.9;
+        }
+        .cloud-face {
+            position: absolute;
+            top: 10px;
+        }
+
+        /* Random movement */
+        @keyframes floatRight {
+            0% { transform: translateX(-200px); opacity: 0; }
+            10% { opacity: 1; }
+            100% { transform: translateX(120vw); opacity: 0; }
+        }
+        @keyframes floatLeft {
+            0% { transform: translateX(120vw); opacity: 0; }
+            10% { opacity: 1; }
+            100% { transform: translateX(-200px); opacity: 0; }
+        }
+        .cloud1 { top: 10%; left: -100px; animation: floatRight 50s linear infinite; }
+        .cloud2 { top: 25%; right: -150px; animation: floatLeft 60s linear infinite; }
+        .cloud3 { top: 40%; left: -100px; animation: floatRight 55s linear infinite; }
+        .cloud4 { top: 55%; right: -200px; animation: floatLeft 65s linear infinite; }
+        .cloud5 { top: 70%; left: -150px; animation: floatRight 70s linear infinite; }
+        .cloud6 { top: 85%; right: -120px; animation: floatLeft 50s linear infinite; }
+
+        /* Rain */
+        .raindrop {
+            position: absolute;
+            width: 4px;
+            height: 12px;
+            background: #00aaff;
+            border-radius: 50%;
+            top: 60px;
+            left: 50%;
+            animation: rain 1s infinite;
+        }
+        .raindrop:nth-child(2) { left: 60%; animation-delay: 0.2s; }
+        .raindrop:nth-child(3) { left: 40%; animation-delay: 0.4s; }
+        @keyframes rain {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(30px); opacity: 0; }
+        }
+
+        /* Lightning */
+        .lightning-bolt {
+            position: absolute;
+            top: 60px;
+            left: 50%;
+            width: 3px;
+            height: 35px;
+            background: yellow;
+            transform: rotate(20deg);
+            box-shadow: 2px 2px 5px rgba(255, 255, 0, 0.8);
+            animation: flash 1.5s infinite;
+        }
+        .lightning-bolt::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: -6px;
+            width: 3px;
+            height: 25px;
+            background: yellow;
+            transform: rotate(-40deg);
+        }
+        @keyframes flash {
+            0%, 80%, 100% { opacity: 0; }
+            40% { opacity: 1; }
+        }
+
+        /* Form */
+        form {
+            z-index: 2;
+            display: flex;
             width: 350px;
-            text-align: center;
-            margin-bottom: 20px; /* Add gap below form */
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            padding: 8px;
         }
-
-        label {
-            color: #333;
-            font-weight: 600;
-            margin-bottom: 10px;
-            font-size: 18px;
-            text-align: left; /* Align label to the left */
-        }
-
-        /* Input styling with focus effect */
         input[type="text"] {
+            flex: 1;
             padding: 12px;
-            border: 2px solid #74ebd5;
-            border-radius: 8px;
-            font-size: 16px;
-            margin-bottom: 20px;
-            transition: border-color 0.3s ease;
-            outline: none;
-        }
-
-        input[type="text"]:focus {
-            border-color: #ACB6E5;
-        }
-
-        /* Button styling with animation */
-        button {
-            background-color: #333;
-            color: white;
             border: none;
-            padding: 12px;
-            border-radius: 8px;
-            cursor: pointer;
+            border-radius: 50px 0 0 50px;
+            outline: none;
             font-size: 16px;
-            font-weight: 600;
-            transition: background-color 0.3s, transform 0.3s;
-            margin-top: 10px; /* Add gap between input and button */
-        }
-
-        button:hover {
-            background-color: #1abc9c;
-            transform: translateY(-3px);
-        }
-
-        /* Weather card with elegant shadow and animation */
-        .weather-card {
-            background-color: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            width: 350px;
-            text-align: center;
-            animation: slideIn 0.5s ease-out forwards;
-            transform: translateY(30px);
-            opacity: 0;
-            margin-top: 20px; /* Add gap between form and weather card */
-        }
-
-        /* Slide-in animation */
-        @keyframes slideIn {
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        h2 {
+            background: rgba(255,255,255,0.9);
             color: #333;
-            font-size: 28px;
+        }
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 0 50px 50px 0;
+            background: #ffb703;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #fb8500;
+        }
+
+        /* Weather Card */
+        .weather-card {
+            z-index: 2;
+            margin-top: 30px;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            width: 320px;
+            text-align: center;
+            animation: fadeIn 0.6s ease-in-out;
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .weather-icon {
+            font-size: 50px;
             margin-bottom: 10px;
         }
-
-        p {
-            font-size: 18px;
-            color: #666;
-            margin: 5px 0;
-        }
-
         .error {
-            color: red;
-            font-size: 18px;
             margin-top: 20px;
+            color: #ff4c4c;
+            font-weight: 600;
+            z-index: 2;
         }
-        
+        p { margin: 5px 0; }
     </style>
 </head>
 <body>
-    <h1>Weather Monitoring System</h1>
+    <!-- Stars -->
+    <div class="stars">
+        <span class="small"></span><span class="big"></span><span class="small"></span><span class="big"></span>
+        <span class="small"></span><span class="big"></span><span class="small"></span><span class="big"></span>
+    </div>
+
+    <!-- Clouds -->
+    <div class="cloud cloud1"><div class="cloud-face">😊</div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div></div>
+    <div class="cloud cloud2"><div class="cloud-face">⚡</div><div class="lightning-bolt"></div></div>
+    <div class="cloud cloud3"><div class="cloud-face">🌤️</div></div>
+    <div class="cloud cloud4"><div class="cloud-face">😎</div></div>
+    <div class="cloud cloud5"><div class="cloud-face">☁️</div></div>
+    <div class="cloud cloud6"><div class="cloud-face">🙂</div></div>
+
+    <h1>Weather Monitoring</h1>
     <form action="/weather" method="post">
-        <label for="city">City Name:</label>
-        <input type="text" id="city" name="city" placeholder="Enter city name...">
-        <button type="submit">Check Weather</button>
+        <input type="text" name="city" placeholder="Enter city name..." required>
+        <button type="submit">Search</button>
     </form>
 
     <div class="error" th:if="${error}">
@@ -144,7 +241,8 @@
     </div>
 
     <div class="weather-card" th:if="${weather}">
-        <h2>Weather in <span th:text="${weather.cityName}"></span></h2>
+        <div class="weather-icon">⛅</div>
+        <h2 th:text="${weather.cityName}"></h2>
         <p>Description: <span th:text="${weather.description}"></span></p>
         <p>Temperature: <span th:text="${weather.temperature}"></span> °C</p>
         <p>Feels Like: <span th:text="${weather.feelsLike}"></span> °C</p>
